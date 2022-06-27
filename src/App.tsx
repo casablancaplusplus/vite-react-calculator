@@ -2,17 +2,57 @@ import { useState, useEffect } from 'react'
 import logo from './logo.svg'
 import './App.css'
 
-function parseMathString(mathStr: string) {
+function DO_MATH_STRING(s: string): number {
+  console.log(`math string: ${s}`)
+  // split the string s into an array of characters
+  let arr = s.split("")
+  console.log(`arr: ${arr}`)
+  let currentNum = ""
+  let currentOp = ""
   let result = 0
-  mathStr.split("").reduce((prev, curr) => {
-    if(curr != "+") return prev + curr
-    return ""
-  })
+  // Iterate arr to read on character at a time
+  for(let i = 0; i < arr.length; i++) {
+    let key = arr[i]
+    // console.log(`index: ${i} key: ${key}`)
+    console.log(`key: ${key}`)
+    if(['0','1','2','3','4','5','6','7','8','9'].includes(key)) { // key is a number
+      currentNum += key
+      console.log(`currentNum: ${currentNum} currentOp: ${currentOp}`)
+      if(i == arr.length - 1) result = DO_MATH(currentOp, result, Number(currentNum))
+    } else if(['+', '-', '*', '/'].includes(key)) { // key is an operation
+      if(currentOp != "") {
+        result = DO_MATH(currentOp, result, Number(currentNum))
+        currentOp = key // update op
+        currentNum = ""
+      } else {
+        result = Number(currentNum)
+        currentOp = key
+        currentNum = ""
+      }
+    }
+  }
+  return result
+}
+
+function DO_MATH(op: string, leftHandValue: number, rightHandValue: number): number {
+  console.log(`DO_MATH op = ${op} left = ${leftHandValue} right = ${rightHandValue}`)
+  switch(op) {
+    case "+":
+      return leftHandValue + rightHandValue
+    case "-":
+      return leftHandValue - rightHandValue
+    case "*":
+      return leftHandValue * rightHandValue
+    case "/":
+      return leftHandValue / rightHandValue
+    default:
+      return 0
+  }
 }
 
 function App() {
   const [mathString, setMathString] = useState("")
-  const [result, setResult] = useState("")
+  const [result, setResult] = useState(0)
   const [currentNum, setCurrentNum] = useState("")
   const [mathOp, setMathOp] = useState("")
 
@@ -40,7 +80,7 @@ function App() {
             setCurrentNum("")
           }}>+</button>
           <button type="button" onClick={() => {
-            setResult(parseMathString(mathString))
+            setResult(DO_MATH_STRING(mathString))
           }}>=</button>
         </p>
         <p>
