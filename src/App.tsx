@@ -11,16 +11,16 @@ function DO_MATH_STRING(s: string): number {
   let currentOp = ""
   let result = 0
   // Iterate arr to read on character at a time
-  for(let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     let key = arr[i]
     // console.log(`index: ${i} key: ${key}`)
     console.log(`key: ${key}`)
-    if(['0','1','2','3','4','5','6','7','8','9'].includes(key)) { // key is a number
+    if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) { // key is a number
       currentNum += key
       console.log(`currentNum: ${currentNum} currentOp: ${currentOp}`)
-      if(i == arr.length - 1) result = DO_MATH(currentOp, result, Number(currentNum))
-    } else if(['+', '-', '*', '/'].includes(key)) { // key is an operation
-      if(currentOp != "") {
+      if (i == arr.length - 1) result = DO_MATH(currentOp, result, Number(currentNum))
+    } else if (['+', '-', '*', '/'].includes(key)) { // key is an operation
+      if (currentOp != "") {
         result = DO_MATH(currentOp, result, Number(currentNum))
         currentOp = key // update op
         currentNum = ""
@@ -36,7 +36,7 @@ function DO_MATH_STRING(s: string): number {
 
 function DO_MATH(op: string, leftHandValue: number, rightHandValue: number): number {
   console.log(`DO_MATH op = ${op} left = ${leftHandValue} right = ${rightHandValue}`)
-  switch(op) {
+  switch (op) {
     case "+":
       return leftHandValue + rightHandValue
     case "-":
@@ -68,20 +68,55 @@ function App() {
         <p>
           {mathString + "=" + result}
           <br />
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((number) => <button type="button" onClick={() => {
+          {[1, 2, 3].map((number) => <span><button type="button" onClick={() => {
             setMathString(mathString + number)
             setCurrentNum(currentNum + number)
           }
-          }>{number}</button>)}
-          <br />
+          }>{number}</button>&nbsp;&nbsp;</span>)}
           <button type="button" onClick={() => {
             setMathString(mathString + "+")
             setMathOp("+")
             setCurrentNum("")
           }}>+</button>
+          <br />
+          <br />
+          {[4, 5, 6].map((number) => <span><button type="button" onClick={() => {
+            setMathString(mathString + number)
+            setCurrentNum(currentNum + number)
+          }
+          }>{number}</button>&nbsp;&nbsp;</span>)}
+          <button type="button" onClick={() => {
+            setMathString(mathString + "-")
+            setMathOp("+")
+            setCurrentNum("")
+          }}>-</button>
+          <br />
+          <br />
+          {[7, 8, 9].map((number) => <span><button type="button" onClick={() => {
+            setMathString(mathString + number)
+            setCurrentNum(currentNum + number)
+          }
+          }>{number}</button>&nbsp;&nbsp;</span>)}
+          <button type="button" onClick={() => {
+            setMathString(mathString + "*")
+            setMathOp("*")
+            setCurrentNum("")
+          }}>x</button>
+          <br />
+          <br />
+          <span><button type="button" onClick={() => {
+            setMathString(mathString + 0)
+            setCurrentNum(currentNum + 0)
+          }
+          }>0</button>&nbsp;&nbsp;</span>
           <button type="button" onClick={() => {
             setResult(DO_MATH_STRING(mathString))
-          }}>=</button>
+          }}>=</button>&nbsp;&nbsp;
+          <button type="button" onClick={() => {
+            setMathString(mathString + "/")
+            setMathOp("/")
+            setCurrentNum("")
+          }}>/</button>
         </p>
         <p>
           Edit <code>App.tsx</code> and save to test HMR updates.
